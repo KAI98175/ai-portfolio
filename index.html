@@ -12,104 +12,57 @@
 
   <style>
     /* =============== 以下是CSS樣式 =============== */
-    details {
-        /* max-height: 3rem; */
-        /* overflow: hidden; */
-        /* transition: max-height 0.3s ease; */
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        padding: 0.5rem 1rem;
-        background-color: #fcfcfc;
-        margin: 1rem 0;
-    }
-
-    details summary {
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 1.05rem;
-        color: #c0392b;
-        display: flex;
-        align-items: center;
-    }
-
-    details summary::before {
-        content: '▶';
-        display: inline-block;
-        transform: rotate(0deg);
-        transition: transform 0.2s ease-in-out;
-        margin-right: 6px;
-    }
-
-    details[open] summary::before {
-        transform: rotate(90deg);
-    }
-
-    /* 原本 details[open] 裏頭的 max-height 與 overflow 也移除或改為預設 */
-    details[open] {
-        /* max-height: 1000px; */
-        /* overflow: visible; */
-    }
-    .prompt-box {
-      background: #f9f9f9;
-      padding: 1rem;
-      font-family: monospace;
-      white-space: pre-wrap;
-      border: 1px dashed #aaa;
-      margin-top: 0.5rem;
-      position: relative;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      background-color: #eee;
-      color: #444;
-      border: 1px solid #ccc;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-    .copy-btn:hover {
-      background-color: #ddd;
-    }
     .gallery-button {
-      background-color: #c0392b;
+      background: linear-gradient(135deg, #c0392b, #7b1a1a);
       color: white;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1.2rem;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-size: 1rem;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(192,57,43,0.3);
     }
     .gallery-button:hover {
-      background-color: #a93226;
+      background: linear-gradient(135deg, #e04535, #9b2020);
+      box-shadow: 0 0 18px rgba(192,57,43,0.6);
     }
     body {
       font-family: 'Noto Sans TC', sans-serif;
       margin: 0;
-      background-color: #fdfcf9;
-      color: #333;
+      background-color: #0d0d14;
+      color: #d8d0f0;
     }
     header {
-      background-color: #222;
+      background: linear-gradient(135deg, #160808, #220c0c);
+      border-bottom: 1px solid rgba(192,57,43,0.4);
       color: white;
-      padding: 1rem;
+      padding: 1.5rem;
       text-align: center;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      color: #c9a96e;
+      letter-spacing: 0.08em;
+      margin: 0;
+      text-shadow: 0 0 24px rgba(201,169,110,0.4);
     }
     .container {
       display: flex;
     }
     nav {
       width: 220px;
-      background: #f3f3f3;
-      border-right: 1px solid #ccc;
+      min-width: 220px;
+      background: #111120;
+      border-right: 1px solid #2e2e4a;
       padding: 1rem;
     }
     nav h2 {
       font-size: 1.1rem;
       margin-top: 0;
+      color: #c9a96e;
+      border-bottom: 1px solid #2e2e4a;
+      padding-bottom: 0.5rem;
     }
     nav ul {
       list-style: none;
@@ -119,51 +72,78 @@
       margin-bottom: 0.5rem;
     }
     nav a {
-      color: #333;
+      color: #a090c0;
       text-decoration: none;
       cursor: pointer;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #c9a96e;
     }
     .tag-button {
-      background: #e0e0e0;
-      color: #444;
+      background: #1a1a30;
+      color: #8888aa;
+      border: 1px solid #3a3a5a;
       padding: 0.2rem 0.6rem;
       margin: 0 0.3rem 0.3rem 0;
       border-radius: 999px;
       font-size: 0.9rem;
       display: inline-block;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tag-button:hover {
+      color: #c9a96e;
+      border-color: #c9a96e55;
     }
     .tag-button.active {
       background: #c0392b;
       color: #fff;
+      border-color: #c0392b;
+      box-shadow: 0 0 8px rgba(192,57,43,0.5);
     }
     main {
       flex-grow: 1;
       padding: 2rem;
     }
     .card {
-      transition: all 0.3s ease-in-out;
-      border: 1px solid #eee;
-      background: white;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid #2e2e4a;
+      background: #16162a;
       padding: 1.5rem;
       margin-bottom: 2rem;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .card:hover {
+      border-color: rgba(192,57,43,0.35);
+      box-shadow: 0 6px 24px rgba(192,57,43,0.12);
     }
     .card h3 {
       font-family: 'Playfair Display', serif;
       font-size: 1.4rem;
       margin-top: 0;
-      color: #c0392b;
+      color: #c9a96e;
       cursor: pointer;
+    }
+    .card h3:hover {
+      color: #dfc07e;
     }
     .card.collapsed .card-content {
       animation: fadeIn 0.3s ease-in-out;
       display: none;
     }
+    .card p {
+      color: #c0b8d8;
+      line-height: 1.7;
+    }
+    .card p strong {
+      color: #c9a96e;
+    }
     .tags span {
-      background: #e0e0e0;
-      color: #444;
+      background: #1a1a30;
+      color: #8888aa;
+      border: 1px solid #3a3a5a;
       padding: 0.2rem 0.6rem;
       margin: 0 0.2rem 0.2rem 0;
       border-radius: 999px;
@@ -172,7 +152,7 @@
       display: inline-block;
     }
     .tags span:hover {
-      background: #ccc;
+      color: #c9a96e;
     }
     .char-image {
       max-width: 100%;
@@ -180,7 +160,8 @@
       margin-bottom: 1rem;
       border-radius: 8px;
       object-fit: contain;
-      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+      box-shadow: 0 0 12px rgba(0,0,0,0.5), 0 0 2px rgba(201,169,110,0.2);
+      border: 1px solid #2e2e4a;
     }
     .image-grid {
       display: flex;
@@ -193,11 +174,13 @@
       height: 150px;
       object-fit: cover;
       border-radius: 6px;
-      box-shadow: 0 0 4px rgba(0,0,0,0.15);
-      transition: transform 0.2s ease;
+      border: 1px solid #3a3a5a;
+      box-shadow: 0 0 6px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .image-grid img:hover {
       transform: scale(1.05);
+      border-color: #c9a96e55;
     }
     .hidden { display: none; }
     @keyframes fadeIn {
@@ -207,10 +190,11 @@
     .modal-content h2 {
       font-family: 'Playfair Display', serif;
       margin-top: 0;
-      font-size: 1.2rem;
-      color: #c0392b;
+      font-size: 1.3rem;
+      color: #c9a96e;
       text-align: center;
       margin-bottom: 1rem;
+      text-shadow: 0 0 12px rgba(201,169,110,0.3);
     }
     .modal .image-grid {
       justify-content: center;
@@ -225,14 +209,15 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(0,0,0,0.82);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
     .modal-content {
-      background: white;
+      background: #1a1a2e;
+      border: 1px solid #3a3a6a;
       padding: 1.5rem;
       border-radius: 8px;
       max-width: 90%;
@@ -250,25 +235,15 @@
       float: right;
       font-size: 1.5rem;
       cursor: pointer;
+      color: #6060a0;
+      transition: color 0.2s;
+    }
+    .close-button:hover {
+      color: #c9a96e;
     }
   </style>
 
   <script>
-    /* ========== 複製 Prompt 功能 ========== */
-    function copyPrompt(button) {
-      const container = button.parentElement;
-      const clone = container.cloneNode(true);
-      const copyBtn = clone.querySelector('.copy-btn');
-      if (copyBtn) copyBtn.remove();
-      const strong = clone.querySelector('strong');
-      if (strong) strong.remove();
-      const text = clone.innerText.trim();
-      navigator.clipboard.writeText(text).then(() => {
-        button.innerText = '✅ 已複製';
-        setTimeout(() => button.innerText = '📋 複製', 1500);
-      });
-    }
-
     /* ========== 卡片收合功能 ========== */
     function toggleCard(id) {
       const card = document.getElementById(id);
@@ -486,46 +461,6 @@
         <div class="card-content">
           <img src="images/lishia/cover.jpg" alt="莉希雅圖片" class="char-image">
 
-          <details>
-            <summary>🧩 畫質版 Prompt 模組（點開展開）</summary>
-
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>📷 畫質模組：</strong><br>
-              ((ray tracing)), ((best quality)), ((ultra-detailed)), ((masterpiece)), ((8K resolution)),<br>
-              ((cinematic lighting with soft ambient glow and rim lighting)), ((HDR rendering)),<br>
-              ((volumetric lighting)), ((god rays)), ((highly detailed textures)), ((subsurface scattering)),<br>
-              ((anisotropic shading)), ((soft shadows)), ((ambient occlusion)), ((flawless skin)), ((delicate peach fuzz))
-            </div>
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>👤 外觀模組：</strong><br>
-              a breathtakingly beautiful dragon girl (ryuu musume), long, silky red hair with natural highlights, a single ahoge,<br>
-              vivid amethyst purple eyes with round pupils, reflecting soft ambient light with a gentle, natural shine, not glowing,<br>
-              graceful dragon horns and small elegant scales subtly accenting her smooth skin
-            </div>
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>👘 服裝模組：</strong><br>
-              wrapped in a thick white towel around her chest and hips, fabric slightly damp and clinging to her curves,<br>
-              a hint of cleavage from the shoulder dip, lower hem revealing smooth thighs glistening in warm light
-            </div>
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>🌌 場景模組：</strong><br>
-              gentle steam rising around her, natural stone hot spring with blurred wooden trim,<br>
-              warm ambient lighting casting rimlight along her form, full-body view, anime style
-            </div>
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>🧪 溫泉場景模組（情境分支）：</strong><br>
-              steam rising gently around her, soft dreamy haze in the air,<br>
-              rocky hot spring rim with wooden accents, glistening water and mist,<br>
-              moonlight filtering through trees, soft reflections on her skin, quiet ambient sounds of water and wind
-            </div>
-
-          </details>
-
           <p><strong>簡介：</strong>外冷內萌的豐滿龍娘，擅長以冷酷氣質包裹天然調皮。</p>
           <button onclick="openLishiaGallery()" class="gallery-button">🖼 查看作品集</button>
         </div>
@@ -558,63 +493,6 @@
 
           <img src="images/milkmaid/cover.jpg" alt="米露可(乳娘)圖片" class="char-image">
 
-          <details>
-            <summary>🧩 畫質版 Prompt 模組（點開展開）</summary>
-
-            <!-- 1. 畫質模組 -->
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>📷 畫質模組：</strong><br>
-              ((ray tracing)), ((best quality)), ((ultra-detailed)), ((masterpiece)), ((8K resolution)),<br>
-              ((cinematic lighting with soft ambient glow and realistic rim lighting)),<br>
-              ((HDR rendering)), ((volumetric lighting)), ((god rays)),<br>
-              ((highly detailed textures)), ((subsurface scattering)),<br>
-              ((anisotropic shading)), ((soft shadows)), ((ambient occlusion)),<br>
-              ((flawless skin)), ((delicate peach fuzz)), ((realistic subsurface scattering))
-            </div>
-
-            <!-- 2. 外觀模組 -->
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>👤 外觀模組：</strong><br>
-              an extremely voluptuous cow-themed anime girl,<br>
-              black medium-length hair slightly messy and sticking to her damp forehead,<br>
-              large round brown eyes sparkling with ambient reflection, pupils dilated,<br>
-              a big silly grin spreading across her face, mouth open mid-laugh,<br>
-              eyes slightly squinting with joy, cheeks flushed and slightly puffed from carefree laughter,<br>
-              arms crossed casually beneath her gigantic breasts, unaware of how much they’re being squeezed
-            </div>
-
-            <!-- 3. 服裝模組 -->
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>👘 服裝模組：</strong><br>
-              tight soaked cow-print bikini hugging every contour,<br>
-              underboob and deep cleavage clearly visible
-            </div>
-
-            <!-- 4. 場景模組 -->
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>🌌 場景模組：</strong><br>
-              sitting loosely at the edge of a hot spring,<br>
-              legs wide apart without concern, one foot dipped in water, the other bent with the knee raised,<br>
-              posture open and unguarded, radiating softness and a silly vibe,<br>
-              wet bikini slightly transparent from the heat and moisture,<br>
-              droplets on her shoulders and chest glistening under the rimlight,<br>
-              her tail (if included) lightly curled up behind her like a question mark
-            </div>
-
-            <!-- 5. 溫泉情境分支 -->
-            <div class="prompt-box">
-              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
-              <strong>🧪 溫泉場景模組（情境分支）：</strong><br>
-              background softly blurred with vague hot spring shapes and steam clouds,<br>
-              eye-level vertical 3:4 framing,<br>
-              lighting softly bouncing from the mist and water surface,<br>
-              drawing attention to her face and chest
-            </div>
-          </details>
           <p><strong>簡介：</strong>呆萌天然 × 肉感滿點，極度巨乳 + 柔軟體態，
             穿著緊身乳牛比基尼並以誘人站姿展現「手臂被巨乳擠壓」的強烈視覺衝擊。</p>
           <button onclick="openMilkmaidModal()" class="gallery-button">🖼 查看作品集</button>
@@ -627,8 +505,6 @@
         <h3 onclick="toggleCard('frelia')">芙蕾莉雅（精靈）</h3>
         <div class="card-content">
           <img src="images/frelia/cover.jpg" alt="芙蕾莉雅圖片" class="char-image">
-          <!-- 若要加 prompt details，也可複製之前模組方式 -->
-
           <p><strong>簡介：</strong>優雅溫柔 × 神秘氣質的金髮綠瞳精靈少女，
             穿著細緻葉紋輕紗裝，於森林湖畔低身撫水，
             周遭籠罩夢幻般的柔霧與魔幻光影。
@@ -742,9 +618,19 @@
         <a href="images/lishia/5.jpg" target="_blank"><img src="images/lishia/5.jpg" alt="莉希雅5"></a>
         <a href="images/lishia/6.jpg" target="_blank"><img src="images/lishia/6.jpg" alt="莉希雅6"></a>
         <a href="images/lishia/7.jpg" target="_blank"><img src="images/lishia/7.jpg" alt="莉希雅7"></a>
-
-
-        <!-- ...更多縮圖請自行新增... -->
+        <a href="images/lishia/595162100415332664.png" target="_blank"><img src="images/lishia/595162100415332664.png" alt="莉希雅8"></a>
+        <a href="images/lishia/595932229440897827.png" target="_blank"><img src="images/lishia/595932229440897827.png" alt="莉希雅9"></a>
+        <a href="images/lishia/595932317621944509.jpg" target="_blank"><img src="images/lishia/595932317621944509.jpg" alt="莉希雅10"></a>
+        <a href="images/lishia/595934145247969576.jpg" target="_blank"><img src="images/lishia/595934145247969576.jpg" alt="莉希雅11"></a>
+        <a href="images/lishia/595934173097623853.jpg" target="_blank"><img src="images/lishia/595934173097623853.jpg" alt="莉希雅12"></a>
+        <a href="images/lishia/595934188751553164.jpg" target="_blank"><img src="images/lishia/595934188751553164.jpg" alt="莉希雅13"></a>
+        <a href="images/lishia/595934247555432691.jpg" target="_blank"><img src="images/lishia/595934247555432691.jpg" alt="莉希雅14"></a>
+        <a href="images/lishia/595934270875500685.jpg" target="_blank"><img src="images/lishia/595934270875500685.jpg" alt="莉希雅15"></a>
+        <a href="images/lishia/595935283967427257.jpg" target="_blank"><img src="images/lishia/595935283967427257.jpg" alt="莉希雅16"></a>
+        <a href="images/lishia/595935300627726972.jpg" target="_blank"><img src="images/lishia/595935300627726972.jpg" alt="莉希雅17"></a>
+        <a href="images/lishia/595935794229936265.jpg" target="_blank"><img src="images/lishia/595935794229936265.jpg" alt="莉希雅18"></a>
+        <a href="images/lishia/595936054763586238.jpg" target="_blank"><img src="images/lishia/595936054763586238.jpg" alt="莉希雅19"></a>
+        <a href="images/lishia/595936109171573153.jpg" target="_blank"><img src="images/lishia/595936109171573153.jpg" alt="莉希雅20"></a>
       </div>
     </div>
   </div>
@@ -777,7 +663,6 @@
         <a href="images/melusia/3.jpg" target="_blank"><img src="images/melusia/3.jpg" alt="梅露希雅3"></a>
 
 
-        <!-- ...更多縮圖請自行新增... -->
       </div>
     </div>
   </div>
@@ -788,10 +673,8 @@
       <span class="close-button" onclick="closeMilkmaidModal()">&times;</span>
       <h2>米露可作品集</h2>
       <div class="image-grid">
-        <!-- 這些圖檔要放在 images/milkmaid/ 目錄內 -->
         <a href="images/milkmaid/1.jpg" target="_blank"><img src="images/milkmaid/1.jpg" alt="米露可1"></a>
         <a href="images/milkmaid/2.jpg" target="_blank"><img src="images/milkmaid/2.jpg" alt="米露可2"></a>
-        <a href="images/milkmaid/3.jpg" target="_blank"><img src="images/milkmaid/3.jpg" alt="米露可3"></a>
       </div>
     </div>
   </div>
@@ -843,9 +726,7 @@
       <span class="close-button" onclick="closegredaGallery()">&times;</span>
       <h2>格蕾妲作品集</h2>
       <div class="image-grid">
-
-        <a href="images/greda/1.jpg" target="_blank"><img src="images/greda/1.jpg" alt="格蕾妲1"></a>
-
+        <p style="color:#9090b0;width:100%;text-align:center;padding:1rem 0;">暫無更多作品</p>
       </div>
     </div>
   </div>
@@ -854,11 +735,13 @@
   <div id="laevraModal" class="modal hidden" style="display:none">
     <div class="modal-content">
       <span class="close-button" onclick="closelaevraGallery()">&times;</span>
-      <h2>莉蕾芙菈作品集</h2>
+      <h2>蕾芙菈作品集</h2>
       <div class="image-grid">
-
         <a href="images/laevra/1.jpg" target="_blank"><img src="images/laevra/1.jpg" alt="蕾芙菈1"></a>
-
+        <a href="images/laevra/2.jpg" target="_blank"><img src="images/laevra/2.jpg" alt="蕾芙菈2"></a>
+        <a href="images/laevra/3.jpg" target="_blank"><img src="images/laevra/3.jpg" alt="蕾芙菈3"></a>
+        <a href="images/laevra/4.jpg" target="_blank"><img src="images/laevra/4.jpg" alt="蕾芙菈4"></a>
+        <a href="images/laevra/5.jpg" target="_blank"><img src="images/laevra/5.jpg" alt="蕾芙菈5"></a>
       </div>
     </div>
   </div>
@@ -869,9 +752,7 @@
       <span class="close-button" onclick="closemioGallery()">&times;</span>
       <h2>澪作品集</h2>
       <div class="image-grid">
-
-        <a href="images/mio/1.jpg" target="_blank"><img src="images/mio/1.jpg" alt="澪1"></a>
-
+        <p style="color:#9090b0;width:100%;text-align:center;padding:1rem 0;">暫無更多作品</p>
       </div>
     </div>
   </div>
@@ -882,9 +763,7 @@
       <span class="close-button" onclick="closehiiragiGallery()">&times;</span>
       <h2>柊·焰羽作品集</h2>
       <div class="image-grid">
-
-        <a href="images/hiiragi_enyu/1.jpg" target="_blank"><img src="images/hiiragi_enyu/1.jpg" alt="柊·焰羽1"></a>
-
+        <p style="color:#9090b0;width:100%;text-align:center;padding:1rem 0;">暫無更多作品</p>
       </div>
     </div>
   </div>
