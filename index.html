@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>我的角色資料庫</title>
+  <!-- Lightbox2 如不需要可刪除 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============== 以下是CSS樣式 =============== */
+    details {
+        /* max-height: 3rem; */
+        /* overflow: hidden; */
+        /* transition: max-height 0.3s ease; */
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        background-color: #fcfcfc;
+        margin: 1rem 0;
+    }
+
+    details summary {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.05rem;
+        color: #c0392b;
+        display: flex;
+        align-items: center;
+    }
+
+    details summary::before {
+        content: '▶';
+        display: inline-block;
+        transform: rotate(0deg);
+        transition: transform 0.2s ease-in-out;
+        margin-right: 6px;
+    }
+
+    details[open] summary::before {
+        transform: rotate(90deg);
+    }
+
+    /* 原本 details[open] 裏頭的 max-height 與 overflow 也移除或改為預設 */
+    details[open] {
+        /* max-height: 1000px; */
+        /* overflow: visible; */
+    }
+    .prompt-box {
+      background: #f9f9f9;
+      padding: 1rem;
+      font-family: monospace;
+      white-space: pre-wrap;
+      border: 1px dashed #aaa;
+      margin-top: 0.5rem;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: #eee;
+      color: #444;
+      border: 1px solid #ccc;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background-color: #ddd;
+    }
+    .gallery-button {
+      background-color: #c0392b;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .gallery-button:hover {
+      background-color: #a93226;
+    }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      margin: 0;
+      background-color: #fdfcf9;
+      color: #333;
+    }
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+    }
+    nav {
+      width: 220px;
+      background: #f3f3f3;
+      border-right: 1px solid #ccc;
+      padding: 1rem;
+    }
+    nav h2 {
+      font-size: 1.1rem;
+      margin-top: 0;
+    }
+    nav ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    nav li {
+      margin-bottom: 0.5rem;
+    }
+    nav a {
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .tag-button {
+      background: #e0e0e0;
+      color: #444;
+      padding: 0.2rem 0.6rem;
+      margin: 0 0.3rem 0.3rem 0;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .tag-button.active {
+      background: #c0392b;
+      color: #fff;
+    }
+    main {
+      flex-grow: 1;
+      padding: 2rem;
+    }
+    .card {
+      transition: all 0.3s ease-in-out;
+      border: 1px solid #eee;
+      background: white;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-top: 0;
+      color: #c0392b;
+      cursor: pointer;
+    }
+    .card.collapsed .card-content {
+      animation: fadeIn 0.3s ease-in-out;
+      display: none;
+    }
+    .tags span {
+      background: #e0e0e0;
+      color: #444;
+      padding: 0.2rem 0.6rem;
+      margin: 0 0.2rem 0.2rem 0;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .tags span:hover {
+      background: #ccc;
+    }
+    .char-image {
+      max-width: 100%;
+      max-height: 300px;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      object-fit: contain;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    }
+    .image-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+    .image-grid img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
+    }
+    .image-grid img:hover {
+      transform: scale(1.05);
+    }
+    .hidden { display: none; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal-content h2 {
+      font-family: 'Playfair Display', serif;
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: #c0392b;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .modal .image-grid {
+      justify-content: center;
+    }
+    .modal .image-grid a {
+      transition: transform 0.2s ease;
+    }
+    .modal .image-grid a:hover {
+      transform: scale(1.05);
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+    }
+    .modal .image-grid img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin: 5px;
+    }
+    .close-button {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  </style>
+
+  <script>
+    /* ========== 複製 Prompt 功能 ========== */
+    function copyPrompt(button) {
+      const container = button.parentElement;
+      const clone = container.cloneNode(true);
+      const copyBtn = clone.querySelector('.copy-btn');
+      if (copyBtn) copyBtn.remove();
+      const strong = clone.querySelector('strong');
+      if (strong) strong.remove();
+      const text = clone.innerText.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        button.innerText = '✅ 已複製';
+        setTimeout(() => button.innerText = '📋 複製', 1500);
+      });
+    }
+
+    /* ========== 卡片收合功能 ========== */
+    function toggleCard(id) {
+      const card = document.getElementById(id);
+      card.classList.toggle('collapsed');
+    }
+
+    /* ========== 莉希雅作品集 Modal ========== */
+    function openLishiaGallery() {
+      const modal = document.getElementById('galleryModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closeLishiaGallery() {
+      const modal = document.getElementById('galleryModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    /* ========== 柯露緹雅作品集 Modal ========== */
+    function openClotiaGallery() {
+      const modal = document.getElementById('clotiaModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closeClotiaGallery() {
+      const modal = document.getElementById('clotiaModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    /* ========== 梅露希雅作品集 Modal ========== */
+    function openMelusiaGallery() {
+      const modal = document.getElementById('melusiaModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closeMelusiaGallery() {
+      const modal = document.getElementById('melusiaModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    /* ========== 米露可(乳娘)作品集 Modal ========== */
+    function openMilkmaidModal() {
+      const modal = document.getElementById('milkmaidModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closeMilkmaidModal() {
+      const modal = document.getElementById('milkmaidModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    /* ========== 芙蕾莉雅（精靈）作品集 Modal ========== */
+    function openFreliaGallery() {
+      const modal = document.getElementById('freliaModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closeFreliaGallery() {
+      const modal = document.getElementById('freliaModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    /* ========== 迪亞布莉（小惡魔）作品集 Modal ========== */
+    function opendiaboliGallery() {
+      const modal = document.getElementById('diaboliModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closediaboliGallery() {
+      const modal = document.getElementById('diaboliModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+    /* ========== 莉亞‧諾克圖（吸血鬼蘿莉）作品集 Modal ========== */
+    function openLiaGallery() {
+      const modal = document.getElementById('LiaModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closeLiaGallery() {
+      const modal = document.getElementById('LiaModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+    /* ========== 格蕾妲（地精少女）作品集 Modal ========== */
+    function opengredaGallery() {
+      const modal = document.getElementById('gredaModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closegredaGallery() {
+      const modal = document.getElementById('gredaModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+    /* ========== 蕾芙菈（樹精）作品集 Modal ========== */
+    function openlaevraGallery() {
+      const modal = document.getElementById('laevraModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closelaevraGallery() {
+      const modal = document.getElementById('laevraModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+    /* ========== 澪（機體少女）作品集 Modal ========== */
+    function openmioGallery() {
+      const modal = document.getElementById('mioModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closemioGallery() {
+      const modal = document.getElementById('mioModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+    /* ========== 柊·焰羽（鬼族混血女忍者）作品集 Modal ========== */
+    function openhiiragiGallery() {
+      const modal = document.getElementById('hiiragiModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closehiiragiGallery() {
+      const modal = document.getElementById('hiiragiModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+
+    /* ========== 標籤篩選功能 ========== */
+    window.addEventListener('DOMContentLoaded', () => {
+      const tagButtons = document.querySelectorAll('.tag-button');
+      tagButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const tag = button.dataset.tag;
+          tagButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          const cards = document.querySelectorAll('.card');
+          cards.forEach(card => {
+            const tags = card.dataset.tags;
+            if (tag === 'all' || (tags && tags.includes(tag))) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>我的 AI 角色資料庫</h1>
+  </header>
+
+  <div class="container">
+    <nav>
+      <h2>角色清單</h2>
+      <ul>
+        <li><a onclick="toggleCard('lishia')">莉希雅（龍娘）</a></li>
+        <li><a onclick="toggleCard('clotia')">柯露緹雅（天空族）</a></li>
+        <li><a onclick="toggleCard('melusia')">梅露希雅（人魚）</a></li>
+        <li><a onclick="toggleCard('milkmaid')">米露可（牛娘）</a></li>
+        <li><a onclick="toggleCard('frelia')">芙蕾莉雅（精靈）</a></li>
+        <li><a onclick="toggleCard('diaboli')">迪亞布莉（小惡魔）</a></li>
+        <li><a onclick="toggleCard('lia_noctu')">莉亞‧諾克圖（吸血鬼蘿莉）</a></li>
+        <li><a onclick="toggleCard('greda')">格蕾妲（地精少女）</a></li>
+        <li><a onclick="toggleCard('laevra')">蕾芙菈（樹精）</a></li>
+        <li><a onclick="toggleCard('mio')">澪（機體少女）</a></li>
+        <li><a onclick="toggleCard('hiiragi_enyu')">柊·焰羽（鬼族混血女忍者）</a></li>
+      </ul>
+
+      <h2>標籤篩選</h2>
+      <div id="tag-filters">
+        <span class="tag-button active" data-tag="all">#全部</span>
+        <span class="tag-button" data-tag="龍娘">#龍娘</span>
+        <span class="tag-button" data-tag="爆乳">#爆乳</span>
+        <span class="tag-button" data-tag="呆萌">#呆萌</span>
+        <span class="tag-button" data-tag="紅髮">#紅髮</span>
+        <span class="tag-button" data-tag="天空族">#天空族</span>
+        <span class="tag-button" data-tag="白髮">#白髮</span>
+        <span class="tag-button" data-tag="小隻馬">#小隻馬</span>
+        <span class="tag-button" data-tag="人魚">#人魚</span>
+        <span class="tag-button" data-tag="藍髮">#藍髮</span>
+        <span class="tag-button" data-tag="豐滿">#豐滿</span>
+        <span class="tag-button" data-tag="優雅">#優雅</span>
+        <span class="tag-button" data-tag="牛娘">#牛娘</span>
+        <span class="tag-button" data-tag="黑髮">#黑髮</span>
+        <!-- 以下新增你想加的標籤 -->
+        <span class="tag-button" data-tag="乳娘">#乳娘</span>
+        <span class="tag-button" data-tag="天然">#天然</span>
+        <span class="tag-button" data-tag="精靈">#精靈</span>
+        <span class="tag-button" data-tag="金髮">#金髮</span>
+        <span class="tag-button" data-tag="綠眼">#綠眼</span>
+        <span class="tag-button" data-tag="森林系">#森林系</span>
+        <span class="tag-button" data-tag="小惡魔">#小惡魔</span>
+        <span class="tag-button" data-tag="巨臀">#巨臀</span>
+        <span class="tag-button" data-tag="健康膚色">#健康膚色</span>
+        <span class="tag-button" data-tag="惡魔尾">#惡魔尾</span>
+        <span class="tag-button" data-tag="挑逗系">#挑逗系</span>
+
+      </div>
+    </nav>
+
+    <main>
+      <!-- ================== 莉希雅（龍娘） ================== -->
+      <section class="card collapsed" id="lishia" data-tags="龍娘 爆乳 呆萌 紅髮">
+        <h3 onclick="toggleCard('lishia')">莉希雅（龍娘）</h3>
+        <div class="card-content">
+          <img src="images/lishia/cover.jpg" alt="莉希雅圖片" class="char-image">
+
+          <details>
+            <summary>🧩 畫質版 Prompt 模組（點開展開）</summary>
+
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>📷 畫質模組：</strong><br>
+              ((ray tracing)), ((best quality)), ((ultra-detailed)), ((masterpiece)), ((8K resolution)),<br>
+              ((cinematic lighting with soft ambient glow and rim lighting)), ((HDR rendering)),<br>
+              ((volumetric lighting)), ((god rays)), ((highly detailed textures)), ((subsurface scattering)),<br>
+              ((anisotropic shading)), ((soft shadows)), ((ambient occlusion)), ((flawless skin)), ((delicate peach fuzz))
+            </div>
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>👤 外觀模組：</strong><br>
+              a breathtakingly beautiful dragon girl (ryuu musume), long, silky red hair with natural highlights, a single ahoge,<br>
+              vivid amethyst purple eyes with round pupils, reflecting soft ambient light with a gentle, natural shine, not glowing,<br>
+              graceful dragon horns and small elegant scales subtly accenting her smooth skin
+            </div>
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>👘 服裝模組：</strong><br>
+              wrapped in a thick white towel around her chest and hips, fabric slightly damp and clinging to her curves,<br>
+              a hint of cleavage from the shoulder dip, lower hem revealing smooth thighs glistening in warm light
+            </div>
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>🌌 場景模組：</strong><br>
+              gentle steam rising around her, natural stone hot spring with blurred wooden trim,<br>
+              warm ambient lighting casting rimlight along her form, full-body view, anime style
+            </div>
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>🧪 溫泉場景模組（情境分支）：</strong><br>
+              steam rising gently around her, soft dreamy haze in the air,<br>
+              rocky hot spring rim with wooden accents, glistening water and mist,<br>
+              moonlight filtering through trees, soft reflections on her skin, quiet ambient sounds of water and wind
+            </div>
+
+          </details>
+
+          <p><strong>簡介：</strong>外冷內萌的豐滿龍娘，擅長以冷酷氣質包裹天然調皮。</p>
+          <button onclick="openLishiaGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ================== 柯露緹雅（天空族） ================== -->
+      <section class="card collapsed" id="clotia" data-tags="天空族 呆萌 白髮">
+        <h3 onclick="toggleCard('clotia')">柯露緹雅（天空族）</h3>
+        <div class="card-content">
+          <img src="images/clotia/cover.jpg" alt="柯露緹雅圖片" class="char-image">
+          <p><strong>簡介：</strong>活潑天真的小隻馬天空族少女，性格輕盈迷糊，擁有絕對的純真氣場。</p>
+          <button onclick="openClotiaGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ================== 梅露希雅（人魚） ================== -->
+      <section class="card collapsed" id="melusia" data-tags="人魚 藍髮 豐滿 優雅">
+        <h3 onclick="toggleCard('melusia')">梅露希雅（人魚）</h3>
+        <div class="card-content">
+          <img src="images/melusia/cover.jpg" alt="梅露希雅圖片" class="char-image">
+          <p><strong>簡介：</strong>深海中的優雅女王，兼具神秘與母性魅力的豐滿人魚。</p>
+          <button onclick="openMelusiaGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ================== 米露可（牛娘） ================== -->
+      <section class="card collapsed" id="milkmaid" data-tags="乳娘 爆乳 天然 黑髮 呆萌 豐滿">
+        <h3 onclick="toggleCard('milkmaid')">米露可（乳娘）</h3>
+        <div class="card-content">
+
+          <img src="images/milkmaid/cover.jpg" alt="米露可(乳娘)圖片" class="char-image">
+
+          <details>
+            <summary>🧩 畫質版 Prompt 模組（點開展開）</summary>
+
+            <!-- 1. 畫質模組 -->
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>📷 畫質模組：</strong><br>
+              ((ray tracing)), ((best quality)), ((ultra-detailed)), ((masterpiece)), ((8K resolution)),<br>
+              ((cinematic lighting with soft ambient glow and realistic rim lighting)),<br>
+              ((HDR rendering)), ((volumetric lighting)), ((god rays)),<br>
+              ((highly detailed textures)), ((subsurface scattering)),<br>
+              ((anisotropic shading)), ((soft shadows)), ((ambient occlusion)),<br>
+              ((flawless skin)), ((delicate peach fuzz)), ((realistic subsurface scattering))
+            </div>
+
+            <!-- 2. 外觀模組 -->
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>👤 外觀模組：</strong><br>
+              an extremely voluptuous cow-themed anime girl,<br>
+              black medium-length hair slightly messy and sticking to her damp forehead,<br>
+              large round brown eyes sparkling with ambient reflection, pupils dilated,<br>
+              a big silly grin spreading across her face, mouth open mid-laugh,<br>
+              eyes slightly squinting with joy, cheeks flushed and slightly puffed from carefree laughter,<br>
+              arms crossed casually beneath her gigantic breasts, unaware of how much they’re being squeezed
+            </div>
+
+            <!-- 3. 服裝模組 -->
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>👘 服裝模組：</strong><br>
+              tight soaked cow-print bikini hugging every contour,<br>
+              underboob and deep cleavage clearly visible
+            </div>
+
+            <!-- 4. 場景模組 -->
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>🌌 場景模組：</strong><br>
+              sitting loosely at the edge of a hot spring,<br>
+              legs wide apart without concern, one foot dipped in water, the other bent with the knee raised,<br>
+              posture open and unguarded, radiating softness and a silly vibe,<br>
+              wet bikini slightly transparent from the heat and moisture,<br>
+              droplets on her shoulders and chest glistening under the rimlight,<br>
+              her tail (if included) lightly curled up behind her like a question mark
+            </div>
+
+            <!-- 5. 溫泉情境分支 -->
+            <div class="prompt-box">
+              <button class="copy-btn" onclick="copyPrompt(this)">📋 複製</button>
+              <strong>🧪 溫泉場景模組（情境分支）：</strong><br>
+              background softly blurred with vague hot spring shapes and steam clouds,<br>
+              eye-level vertical 3:4 framing,<br>
+              lighting softly bouncing from the mist and water surface,<br>
+              drawing attention to her face and chest
+            </div>
+          </details>
+          <p><strong>簡介：</strong>呆萌天然 × 肉感滿點，極度巨乳 + 柔軟體態，
+            穿著緊身乳牛比基尼並以誘人站姿展現「手臂被巨乳擠壓」的強烈視覺衝擊。</p>
+          <button onclick="openMilkmaidModal()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 芙蕾莉雅（精靈） 新增角色卡 ============== -->
+      <section class="card collapsed" id="frelia"
+               data-tags="精靈 金髮 優雅 綠眼 森林系">
+        <h3 onclick="toggleCard('frelia')">芙蕾莉雅（精靈）</h3>
+        <div class="card-content">
+          <img src="images/frelia/cover.jpg" alt="芙蕾莉雅圖片" class="char-image">
+          <!-- 若要加 prompt details，也可複製之前模組方式 -->
+
+          <p><strong>簡介：</strong>優雅溫柔 × 神秘氣質的金髮綠瞳精靈少女，
+            穿著細緻葉紋輕紗裝，於森林湖畔低身撫水，
+            周遭籠罩夢幻般的柔霧與魔幻光影。
+          </p>
+          <button onclick="openFreliaGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 迪亞布莉（小惡魔） 新增角色卡 ============== -->
+      <section class="card collapsed" id="diaboli"
+               data-tags="小惡魔 巨臀 健康膚色 惡魔尾 挑逗系">
+        <h3 onclick="toggleCard('diaboli')">迪亞布莉（小惡魔）</h3>
+        <div class="card-content">
+          <img src="images/diaboli/cover.jpg" alt="迪亞布莉圖片" class="char-image">
+
+          <p><strong>簡介：</strong>調皮奔放 × 性感挑釁，擁有曬痕小麥膚色與巨臀構圖，
+            心形惡魔尾巴不斷搖擺，身穿短褲繃緊的誘惑姿勢，
+            舉起 YA 手勢狡黠地挑逗你。
+          </p>
+
+          <button onclick="opendiaboliGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 莉亞‧諾克圖（吸血鬼蘿莉） 新增角色卡 ============== -->
+      <section class="card collapsed" id="lia_noctu"
+               data-tags="小惡魔 小隻馬">
+        <h3 onclick="toggleCard('lia_noctu')">莉亞‧諾克圖（吸血鬼蘿莉）</h3>
+        <div class="card-content">
+          <img src="images/lia_noctu/cover.jpg" alt="莉亞‧諾克圖圖片" class="char-image">
+
+          <p><strong>簡介：</strong>嬌小搗蛋的吸血鬼蘿莉，擁有深紅雙瞳與黑色雙馬尾。喜歡在夜晚嬉鬧並隱藏著一絲危險魅力。
+          </p>
+
+          <button onclick="openLiaGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 格蕾妲（地精少女） 新增角色卡 ============== -->
+      <section class="card collapsed" id="greda"
+               data-tags="小隻馬 巨臀 森林系 豐滿">
+        <h3 onclick="toggleCard('greda')">格蕾妲（地精少女）</h3>
+        <div class="card-content">
+          <img src="images/greda/cover.jpg" alt="格蕾妲圖片" class="char-image">
+
+          <p><strong>簡介：</strong>身形嬌小圓潤的地精少女，灰色肌膚與蓬鬆亂髮，擁有天真好奇的眼神，顯得有點迷糊且呆萌。
+          </p>
+
+          <button onclick="opengredaGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 蕾芙菈（樹精） 新增角色卡 ============== -->
+      <section class="card collapsed" id="laevra"
+               data-tags="森林系 優雅 綠眼">
+        <h3 onclick="toggleCard('laevra')">蕾芙菈（樹精）</h3>
+        <div class="card-content">
+          <img src="images/laevra/cover.jpg" alt="蕾芙菈圖片" class="char-image">
+
+          <p><strong>簡介：</strong>優雅的樹精少女，全身帶有淡綠葉質肌膚與纏繞藤蔓，
+            花苞般的胸口散發森林氣息，如同自然精靈般純淨神秘。
+          </p>
+
+          <button onclick="openlaevraGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 澪（機體少女） 新增角色卡 ============== -->
+      <section class="card collapsed" id="mio"
+               data-tags=" ">
+        <h3 onclick="toggleCard('mio')">澪（機體少女）</h3>
+        <div class="card-content">
+          <img src="images/mio/cover.jpg" alt="澪圖片" class="char-image">
+
+          <p><strong>簡介：</strong>冷感的機械少女，銀灰色金屬軀殼與紫色長髮，
+            身上可見微弱的能量紋路與接合鎖扣，讓人感受未來科技之美。
+          </p>
+
+          <button onclick="openmioGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 柊·焰羽（鬼族混血女忍者） 新增角色卡 ============== -->
+      <section class="card collapsed" id="hiiragi_enyu"
+               data-tags="挑逗系 黑髮">
+        <h3 onclick="toggleCard('hiiragi_enyu')">柊·焰羽（鬼族混血女忍者）</h3>
+        <div class="card-content">
+          <img src="images/hiiragi_enyu/cover.jpg" alt="柊·焰羽圖片" class="char-image">
+
+          <p><strong>簡介：</strong>半鬼血統的女忍者，黑色高馬尾與蒼白肌膚，琥珀色眼中閃著凌冽自信。
+            身著繃帶式忍裝，散發詭魅殺氣又不失性感。
+          </p>
+
+          <button onclick="openhiiragiGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============ 莉希雅作品集 Modal ============ -->
+  <div id="galleryModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeLishiaGallery()">&times;</span>
+      <h2>莉希雅作品集</h2>
+      <div class="image-grid">
+        <a href="images/lishia/1.jpg" target="_blank"><img src="images/lishia/1.jpg" alt="莉希雅1"></a>
+        <a href="images/lishia/2.jpg" target="_blank"><img src="images/lishia/2.jpg" alt="莉希雅2"></a>
+        <a href="images/lishia/3.jpg" target="_blank"><img src="images/lishia/3.jpg" alt="莉希雅3"></a>
+        <a href="images/lishia/4.jpg" target="_blank"><img src="images/lishia/4.jpg" alt="莉希雅4"></a>
+        <a href="images/lishia/5.jpg" target="_blank"><img src="images/lishia/5.jpg" alt="莉希雅5"></a>
+        <a href="images/lishia/6.jpg" target="_blank"><img src="images/lishia/6.jpg" alt="莉希雅6"></a>
+        <a href="images/lishia/7.jpg" target="_blank"><img src="images/lishia/7.jpg" alt="莉希雅7"></a>
+
+
+        <!-- ...更多縮圖請自行新增... -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 柯露緹雅（天空族）作品集 Modal ============ -->
+  <div id="clotiaModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeClotiaGallery()">&times;</span>
+      <h2>柯露緹雅作品集</h2>
+      <div class="image-grid">
+        <a href="images/clotia/1.jpg" target="_blank"><img src="images/clotia/1.jpg" alt="柯露緹雅1"></a>
+        <a href="images/clotia/2.jpg" target="_blank"><img src="images/clotia/2.jpg" alt="柯露緹雅2"></a>
+        <a href="images/clotia/3.jpg" target="_blank"><img src="images/clotia/3.jpg" alt="柯露緹雅3"></a>
+        <a href="images/clotia/4.jpg" target="_blank"><img src="images/clotia/4.jpg" alt="柯露緹雅4"></a>
+
+
+        <!-- ...更多縮圖請自行新增... -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 梅露希雅（人魚）作品集 Modal ============ -->
+  <div id="melusiaModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeMelusiaGallery()">&times;</span>
+      <h2>梅露希雅作品集</h2>
+      <div class="image-grid">
+        <a href="images/melusia/1.jpg" target="_blank"><img src="images/melusia/1.jpg" alt="梅露希雅1"></a>
+        <a href="images/melusia/2.jpg" target="_blank"><img src="images/melusia/2.jpg" alt="梅露希雅2"></a>
+        <a href="images/melusia/3.jpg" target="_blank"><img src="images/melusia/3.jpg" alt="梅露希雅3"></a>
+
+
+        <!-- ...更多縮圖請自行新增... -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 米露可(乳娘)作品集 Modal ============ -->
+  <div id="milkmaidModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeMilkmaidModal()">&times;</span>
+      <h2>米露可作品集</h2>
+      <div class="image-grid">
+        <!-- 這些圖檔要放在 images/milkmaid/ 目錄內 -->
+        <a href="images/milkmaid/1.jpg" target="_blank"><img src="images/milkmaid/1.jpg" alt="米露可1"></a>
+        <a href="images/milkmaid/2.jpg" target="_blank"><img src="images/milkmaid/2.jpg" alt="米露可2"></a>
+        <a href="images/milkmaid/3.jpg" target="_blank"><img src="images/milkmaid/3.jpg" alt="米露可3"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 芙蕾莉雅（精靈）作品集 Modal ============ -->
+  <div id="freliaModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeFreliaGallery()">&times;</span>
+      <h2>芙蕾莉雅作品集</h2>
+      <div class="image-grid">
+
+        <a href="images/frelia/1.jpg" target="_blank"><img src="images/frelia/1.jpg" alt="芙蕾莉雅1"></a>
+        <a href="images/frelia/2.jpg" target="_blank"><img src="images/frelia/2.jpg" alt="芙蕾莉雅2"></a>
+        <a href="images/frelia/3.jpg" target="_blank"><img src="images/frelia/3.jpg" alt="芙蕾莉雅3"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 迪亞布莉（小惡魔）作品集 Modal ============ -->
+  <div id="diaboliModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closediaboliGallery()">&times;</span>
+      <h2>迪亞布莉作品集</h2>
+      <div class="image-grid">
+
+        <a href="images/diaboli/1.jpg" target="_blank"><img src="images/diaboli/1.jpg" alt="迪亞布莉1"></a>
+        <a href="images/diaboli/2.jpg" target="_blank"><img src="images/diaboli/2.jpg" alt="迪亞布莉2"></a>
+        <a href="images/diaboli/3.jpg" target="_blank"><img src="images/diaboli/3.jpg" alt="迪亞布莉3"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 莉亞‧諾克圖（吸血鬼蘿莉）作品集 Modal ============ -->
+  <div id="LiaModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeLiaGallery()">&times;</span>
+      <h2>莉亞‧諾克圖作品集</h2>
+      <div class="image-grid">
+
+        <a href="images/lia_noctu/1.jpg" target="_blank"><img src="images/lia_noctu/1.jpg" alt="莉亞‧諾克圖1"></a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 格蕾妲（地精少女）作品集 Modal ============ -->
+  <div id="gredaModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closegredaGallery()">&times;</span>
+      <h2>格蕾妲作品集</h2>
+      <div class="image-grid">
+
+        <a href="images/greda/1.jpg" target="_blank"><img src="images/greda/1.jpg" alt="格蕾妲1"></a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 蕾芙菈（樹精）作品集 Modal ============ -->
+  <div id="laevraModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closelaevraGallery()">&times;</span>
+      <h2>莉蕾芙菈作品集</h2>
+      <div class="image-grid">
+
+        <a href="images/laevra/1.jpg" target="_blank"><img src="images/laevra/1.jpg" alt="蕾芙菈1"></a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 澪（機體少女）作品集 Modal ============ -->
+  <div id="mioModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closemioGallery()">&times;</span>
+      <h2>澪作品集</h2>
+      <div class="image-grid">
+
+        <a href="images/mio/1.jpg" target="_blank"><img src="images/mio/1.jpg" alt="澪1"></a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 柊·焰羽（鬼族混血女忍者）作品集 Modal ============ -->
+  <div id="hiiragiModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closehiiragiGallery()">&times;</span>
+      <h2>柊·焰羽作品集</h2>
+      <div class="image-grid">
+
+        <a href="images/hiiragi_enyu/1.jpg" target="_blank"><img src="images/hiiragi_enyu/1.jpg" alt="柊·焰羽1"></a>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
