@@ -47,8 +47,8 @@
       position: fixed;
       inset: 0;
       z-index: -1;
-      background-size: cover;
-      background-position: center;
+      background-size: contain;
+      background-position: calc(50% + 120px) center;
       background-repeat: no-repeat;
       opacity: 0;
       transition: opacity 1.2s ease;
@@ -57,7 +57,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(8, 6, 17, 0.82);
+      background: rgba(8, 6, 17, 0.60);
     }
 
     /* =============== Header =============== */
@@ -129,7 +129,7 @@
     }
     nav li { margin-bottom: 0.1rem; }
     nav a {
-      color: var(--text-muted);
+      color: var(--text);
       text-decoration: none;
       cursor: pointer;
       transition: all 0.2s;
@@ -154,7 +154,7 @@
     }
     .tag-button {
       background: transparent;
-      color: var(--text-dim);
+      color: var(--text-muted);
       border: 1px solid rgba(107,79,158,0.28);
       padding: 0.18rem 0.55rem;
       border-radius: 2px;
@@ -180,19 +180,25 @@
     main {
       flex-grow: 1;
       padding: 2rem 2.5rem;
+      background: rgba(8, 6, 17, 0.35);
     }
 
     /* =============== Cards =============== */
     .card {
       position: relative;
       border: 1px solid var(--border);
-      background: linear-gradient(140deg, #0e0b1f 0%, #0a0818 100%);
+      background: linear-gradient(140deg, rgba(14,11,31,0.35) 0%, rgba(10,8,24,0.35) 100%);
       padding: 1.8rem;
       margin-bottom: 1.8rem;
       border-radius: 4px;
       box-shadow: 0 4px 24px var(--shadow), inset 0 1px 0 rgba(201,168,76,0.04);
       transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
       overflow: hidden;
+      backdrop-filter: blur(2px);
+    }
+    .card:not(.collapsed) {
+      background: linear-gradient(140deg, #0e0b1f 0%, #0a0818 100%);
+      backdrop-filter: none;
     }
     .card::before, .card::after {
       content: '';
@@ -430,6 +436,7 @@
     body.modal-open { overflow: hidden; }
 
     @media (max-width: 768px) {
+      #site-bg { background-position: center center; }
       .container { flex-direction: column; }
       nav {
         width: 100%;
