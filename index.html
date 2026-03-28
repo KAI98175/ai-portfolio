@@ -42,6 +42,24 @@
       min-height: 100vh;
     }
 
+    /* =============== 隨機背景圖 =============== */
+    #site-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    #site-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 6, 17, 0.82);
+    }
+
     /* =============== Header =============== */
     header {
       background: linear-gradient(180deg, #0d0920 0%, #080611 100%);
@@ -601,11 +619,32 @@
           if (e.target === modal) closeModal(modal.id);
         });
       });
+
+      /* ========== 隨機背景圖 ========== */
+      const bgImages = [
+        'images/lishia/cover.jpg','images/lishia/1.jpg','images/lishia/2.jpg','images/lishia/3.jpg','images/lishia/4.jpg','images/lishia/5.jpg','images/lishia/6.jpg','images/lishia/7.jpg','images/lishia/8.png','images/lishia/9.png','images/lishia/10.jpg','images/lishia/11.jpg','images/lishia/12.jpg','images/lishia/13.jpg','images/lishia/14.jpg','images/lishia/15.jpg','images/lishia/16.jpg','images/lishia/17.jpg','images/lishia/18.jpg','images/lishia/19.jpg','images/lishia/20.jpg','images/lishia/21.jpg','images/lishia/22.jpg','images/lishia/23.jpg',
+        'images/clotia/cover.jpg','images/clotia/1.jpg','images/clotia/2.jpg','images/clotia/3.jpg','images/clotia/4.jpg',
+        'images/melusia/cover.jpg','images/melusia/1.jpg','images/melusia/2.jpg','images/melusia/3.jpg','images/melusia/4.jpg','images/melusia/5.jpg','images/melusia/6.jpg','images/melusia/7.jpg','images/melusia/8.jpg',
+        'images/milkmaid/cover.jpg','images/milkmaid/1.jpg','images/milkmaid/2.jpg','images/milkmaid/3.jpg',
+        'images/frelia/cover.jpg','images/frelia/1.jpg','images/frelia/2.jpg','images/frelia/3.jpg',
+        'images/diaboli/cover.jpg','images/diaboli/1.jpg','images/diaboli/2.jpg','images/diaboli/3.jpg',
+        'images/lia_noctu/cover.jpg','images/lia_noctu/1.jpg',
+        'images/greda/cover.jpg',
+        'images/laevra/cover.jpg','images/laevra/1.jpg','images/laevra/2.jpg','images/laevra/3.jpg','images/laevra/4.jpg','images/laevra/5.jpg',
+        'images/mio/cover.jpg',
+        'images/hiiragi_enyu/cover.jpg','images/hiiragi_enyu/1.jpg','images/hiiragi_enyu/2.jpg','images/hiiragi_enyu/3.jpg',
+        'images/sera/cover.jpg','images/sera/1.jpg','images/sera/2.jpg','images/sera/3.jpg','images/sera/4.jpg'
+      ];
+      const picked = bgImages[Math.floor(Math.random() * bgImages.length)];
+      const siteBg = document.getElementById('site-bg');
+      siteBg.style.backgroundImage = `url('${picked}')`;
+      setTimeout(() => { siteBg.style.opacity = '1'; }, 100);
     });
   </script>
 </head>
 
 <body>
+  <div id="site-bg"></div>
   <header>
     <h1>幻境典籍</h1>
     <p class="subtitle">◆ &nbsp; AI Character Codex &nbsp; ◆</p>
