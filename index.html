@@ -241,6 +241,88 @@
     .close-button:hover {
       color: #c9a96e;
     }
+
+    /* =============== RWD 手機版 =============== */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      nav {
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid #2e2e4a;
+        padding: 0.75rem 1rem;
+      }
+      nav h2 {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+      }
+      nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      nav li {
+        margin-bottom: 0;
+      }
+      nav a {
+        font-size: 0.85rem;
+        background: #1a1a30;
+        border: 1px solid #3a3a5a;
+        border-radius: 999px;
+        padding: 0.2rem 0.5rem;
+        display: inline-block;
+      }
+      #tag-filters {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 0.3rem;
+        padding-bottom: 0.3rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      #tag-filters::-webkit-scrollbar { display: none; }
+      .tag-button {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      main {
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        align-items: start;
+      }
+      .card {
+        margin-bottom: 0;
+        padding: 1rem;
+      }
+      .char-image {
+        max-height: 200px;
+      }
+      .modal-content {
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+      .modal .image-grid img {
+        width: 90px;
+        height: 90px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 
   <script>
@@ -286,7 +368,7 @@
       modal.style.display = 'none';
     }
 
-    /* ========== 米露可(乳娘)作品集 Modal ========== */
+    /* ========== 米露可(牧場娘)作品集 Modal ========== */
     function openMilkmaidModal() {
       const modal = document.getElementById('milkmaidModal');
       modal.classList.remove('hidden');
@@ -376,6 +458,17 @@
       modal.classList.add('hidden');
       modal.style.display = 'none';
     }
+    /* ========== 瑟菈（白蛇少女）作品集 Modal ========== */
+    function openSeraGallery() {
+      const modal = document.getElementById('seraModal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+    function closeSeraGallery() {
+      const modal = document.getElementById('seraModal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
 
     /* ========== 標籤篩選功能 ========== */
     window.addEventListener('DOMContentLoaded', () => {
@@ -394,6 +487,16 @@
               card.classList.add('hidden');
             }
           });
+        });
+      });
+
+      /* ========== Backdrop 點擊關閉所有 Modal ========== */
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+          }
         });
       });
     });
@@ -420,6 +523,7 @@
         <li><a onclick="toggleCard('laevra')">蕾芙菈（樹精）</a></li>
         <li><a onclick="toggleCard('mio')">澪（機體少女）</a></li>
         <li><a onclick="toggleCard('hiiragi_enyu')">柊·焰羽（鬼族混血女忍者）</a></li>
+        <li><a onclick="toggleCard('sera')">瑟菈（白蛇少女）</a></li>
       </ul>
 
       <h2>標籤篩選</h2>
@@ -439,7 +543,9 @@
         <span class="tag-button" data-tag="牛娘">#牛娘</span>
         <span class="tag-button" data-tag="黑髮">#黑髮</span>
         <!-- 以下新增你想加的標籤 -->
-        <span class="tag-button" data-tag="乳娘">#乳娘</span>
+        <span class="tag-button" data-tag="牧場娘">#牧場娘</span>
+        <span class="tag-button" data-tag="白蛇族">#白蛇族</span>
+        <span class="tag-button" data-tag="金眼">#金眼</span>
         <span class="tag-button" data-tag="天然">#天然</span>
         <span class="tag-button" data-tag="精靈">#精靈</span>
         <span class="tag-button" data-tag="金髮">#金髮</span>
@@ -487,11 +593,11 @@
       </section>
 
       <!-- ================== 米露可（牛娘） ================== -->
-      <section class="card collapsed" id="milkmaid" data-tags="乳娘 爆乳 天然 黑髮 呆萌 豐滿">
-        <h3 onclick="toggleCard('milkmaid')">米露可（乳娘）</h3>
+      <section class="card collapsed" id="milkmaid" data-tags="牧場娘 爆乳 天然 黑髮 呆萌 豐滿">
+        <h3 onclick="toggleCard('milkmaid')">米露可（牧場娘）</h3>
         <div class="card-content">
 
-          <img src="images/milkmaid/cover.jpg" alt="米露可(乳娘)圖片" class="char-image">
+          <img src="images/milkmaid/cover.jpg" alt="米露可(牧場娘)圖片" class="char-image">
 
           <p><strong>簡介：</strong>呆萌天然 × 肉感滿點，極度巨乳 + 柔軟體態，
             穿著緊身乳牛比基尼並以誘人站姿展現「手臂被巨乳擠壓」的強烈視覺衝擊。</p>
@@ -602,6 +708,19 @@
         </div>
       </section>
 
+      <!-- ============== 瑟菈（白蛇少女） ============== -->
+      <section class="card collapsed" id="sera"
+               data-tags="白蛇族 白髮 金眼">
+        <h3 onclick="toggleCard('sera')">瑟菈（白蛇少女）</h3>
+        <div class="card-content">
+          <img src="images/sera/cover.jpg" alt="瑟菈圖片" class="char-image">
+          <p><strong>簡介：</strong>神秘冷豔的白蛇族少女，銀白長髮如絲絹，金色蛇瞳深邃而魅惑。
+            下半身為純白蛇尾，動作優雅卻暗藏危險，散發出古老種族的靜謐威儀。
+          </p>
+          <button onclick="openSeraGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -631,6 +750,9 @@
         <a href="images/lishia/595935794229936265.jpg" target="_blank"><img src="images/lishia/595935794229936265.jpg" alt="莉希雅18"></a>
         <a href="images/lishia/595936054763586238.jpg" target="_blank"><img src="images/lishia/595936054763586238.jpg" alt="莉希雅19"></a>
         <a href="images/lishia/595936109171573153.jpg" target="_blank"><img src="images/lishia/595936109171573153.jpg" alt="莉希雅20"></a>
+        <a href="images/lishia/607064803882303848.jpg" target="_blank"><img src="images/lishia/607064803882303848.jpg" alt="莉希雅21"></a>
+        <a href="images/lishia/607065165263274057.jpg" target="_blank"><img src="images/lishia/607065165263274057.jpg" alt="莉希雅22"></a>
+        <a href="images/lishia/607065244921495981.jpg" target="_blank"><img src="images/lishia/607065244921495981.jpg" alt="莉希雅23"></a>
       </div>
     </div>
   </div>
@@ -661,8 +783,11 @@
         <a href="images/melusia/1.jpg" target="_blank"><img src="images/melusia/1.jpg" alt="梅露希雅1"></a>
         <a href="images/melusia/2.jpg" target="_blank"><img src="images/melusia/2.jpg" alt="梅露希雅2"></a>
         <a href="images/melusia/3.jpg" target="_blank"><img src="images/melusia/3.jpg" alt="梅露希雅3"></a>
-
-
+        <a href="images/melusia/607069042242486841.jpg" target="_blank"><img src="images/melusia/607069042242486841.jpg" alt="梅露希雅4"></a>
+        <a href="images/melusia/607069319452688842.jpg" target="_blank"><img src="images/melusia/607069319452688842.jpg" alt="梅露希雅5"></a>
+        <a href="images/melusia/607073007336685887.jpg" target="_blank"><img src="images/melusia/607073007336685887.jpg" alt="梅露希雅6"></a>
+        <a href="images/melusia/607073139138494593.jpg" target="_blank"><img src="images/melusia/607073139138494593.jpg" alt="梅露希雅7"></a>
+        <a href="images/melusia/607073698172109320.jpg" target="_blank"><img src="images/melusia/607073698172109320.jpg" alt="梅露希雅8"></a>
       </div>
     </div>
   </div>
@@ -675,6 +800,7 @@
       <div class="image-grid">
         <a href="images/milkmaid/1.jpg" target="_blank"><img src="images/milkmaid/1.jpg" alt="米露可1"></a>
         <a href="images/milkmaid/2.jpg" target="_blank"><img src="images/milkmaid/2.jpg" alt="米露可2"></a>
+        <a href="images/milkmaid/607068304078799004.jpg" target="_blank"><img src="images/milkmaid/607068304078799004.jpg" alt="米露可3"></a>
       </div>
     </div>
   </div>
@@ -763,7 +889,23 @@
       <span class="close-button" onclick="closehiiragiGallery()">&times;</span>
       <h2>柊·焰羽作品集</h2>
       <div class="image-grid">
-        <p style="color:#9090b0;width:100%;text-align:center;padding:1rem 0;">暫無更多作品</p>
+        <a href="images/hiiragi_enyu/607067494511280627.jpg" target="_blank"><img src="images/hiiragi_enyu/607067494511280627.jpg" alt="柊·焰羽1"></a>
+        <a href="images/hiiragi_enyu/607067513200575126.jpg" target="_blank"><img src="images/hiiragi_enyu/607067513200575126.jpg" alt="柊·焰羽2"></a>
+        <a href="images/hiiragi_enyu/607067689915777557.jpg" target="_blank"><img src="images/hiiragi_enyu/607067689915777557.jpg" alt="柊·焰羽3"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 瑟菈（白蛇少女）作品集 Modal ============ -->
+  <div id="seraModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeSeraGallery()">&times;</span>
+      <h2>瑟菈作品集</h2>
+      <div class="image-grid">
+        <a href="images/sera/607068625697767841.jpg" target="_blank"><img src="images/sera/607068625697767841.jpg" alt="瑟菈1"></a>
+        <a href="images/sera/607068647206945198.jpg" target="_blank"><img src="images/sera/607068647206945198.jpg" alt="瑟菈2"></a>
+        <a href="images/sera/607069913852674402.jpg" target="_blank"><img src="images/sera/607069913852674402.jpg" alt="瑟菈3"></a>
+        <a href="images/sera/607070912348684837.jpg" target="_blank"><img src="images/sera/607070912348684837.jpg" alt="瑟菈4"></a>
       </div>
     </div>
   </div>
