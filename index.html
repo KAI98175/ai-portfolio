@@ -476,6 +476,32 @@
       card.classList.toggle('collapsed');
     }
 
+    /* ========== 導覽列：只顯示該角色 ========== */
+    function showOnly(id) {
+      document.querySelectorAll('main .card').forEach(card => {
+        if (card.id === id) {
+          card.classList.remove('hidden');
+          card.classList.remove('collapsed');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      // 取消標籤篩選高亮
+      document.querySelectorAll('.tag-button').forEach(btn => btn.classList.remove('active'));
+      const allBtn = document.querySelector('.tag-button[data-tag="all"]');
+      if (allBtn) allBtn.classList.add('active');
+    }
+
+    function showAllCards() {
+      document.querySelectorAll('main .card').forEach(card => {
+        card.classList.remove('hidden');
+        card.classList.add('collapsed');
+      });
+      document.querySelectorAll('.tag-button').forEach(btn => btn.classList.remove('active'));
+      const allBtn = document.querySelector('.tag-button[data-tag="all"]');
+      if (allBtn) allBtn.classList.add('active');
+    }
+
     /* ========== 莉希雅作品集 Modal ========== */
     function openLishiaGallery() {
       const modal = document.getElementById('galleryModal');
@@ -657,18 +683,19 @@
     <nav>
       <h2>角色清單</h2>
       <ul>
-        <li><a onclick="toggleCard('lishia')">莉希雅（龍娘）</a></li>
-        <li><a onclick="toggleCard('clotia')">柯露緹雅（天空族）</a></li>
-        <li><a onclick="toggleCard('melusia')">梅露希雅（人魚）</a></li>
-        <li><a onclick="toggleCard('milkmaid')">米露可（牛娘）</a></li>
-        <li><a onclick="toggleCard('frelia')">芙蕾莉雅（精靈）</a></li>
-        <li><a onclick="toggleCard('diaboli')">迪亞布莉（小惡魔）</a></li>
-        <li><a onclick="toggleCard('lia_noctu')">莉亞‧諾克圖（吸血鬼蘿莉）</a></li>
-        <li><a onclick="toggleCard('greda')">格蕾妲（地精少女）</a></li>
-        <li><a onclick="toggleCard('laevra')">蕾芙菈（樹精）</a></li>
-        <li><a onclick="toggleCard('mio')">澪（機體少女）</a></li>
-        <li><a onclick="toggleCard('hiiragi_enyu')">柊·焰羽（鬼族混血女忍者）</a></li>
-        <li><a onclick="toggleCard('sera')">瑟菈（白蛇少女）</a></li>
+        <li><a onclick="showAllCards()">— 顯示全部 —</a></li>
+        <li><a onclick="showOnly('lishia')">莉希雅（龍娘）</a></li>
+        <li><a onclick="showOnly('clotia')">柯露緹雅（天空族）</a></li>
+        <li><a onclick="showOnly('melusia')">梅露希雅（人魚）</a></li>
+        <li><a onclick="showOnly('milkmaid')">米露可（牧場娘）</a></li>
+        <li><a onclick="showOnly('frelia')">芙蕾莉雅（精靈）</a></li>
+        <li><a onclick="showOnly('diaboli')">迪亞布莉（小惡魔）</a></li>
+        <li><a onclick="showOnly('lia_noctu')">莉亞‧諾克圖（吸血鬼蘿莉）</a></li>
+        <li><a onclick="showOnly('greda')">格蕾妲（地精少女）</a></li>
+        <li><a onclick="showOnly('laevra')">蕾芙菈（樹精）</a></li>
+        <li><a onclick="showOnly('mio')">澪（機體少女）</a></li>
+        <li><a onclick="showOnly('hiiragi_enyu')">柊·焰羽（鬼族混血女忍者）</a></li>
+        <li><a onclick="showOnly('sera')">瑟菈（白蛇少女）</a></li>
       </ul>
 
       <h2>標籤篩選</h2>
@@ -882,22 +909,22 @@
         <a href="images/lishia/5.jpg" target="_blank"><img src="images/lishia/5.jpg" alt="莉希雅5"></a>
         <a href="images/lishia/6.jpg" target="_blank"><img src="images/lishia/6.jpg" alt="莉希雅6"></a>
         <a href="images/lishia/7.jpg" target="_blank"><img src="images/lishia/7.jpg" alt="莉希雅7"></a>
-        <a href="images/lishia/595162100415332664.png" target="_blank"><img src="images/lishia/595162100415332664.png" alt="莉希雅8"></a>
-        <a href="images/lishia/595932229440897827.png" target="_blank"><img src="images/lishia/595932229440897827.png" alt="莉希雅9"></a>
-        <a href="images/lishia/595932317621944509.jpg" target="_blank"><img src="images/lishia/595932317621944509.jpg" alt="莉希雅10"></a>
-        <a href="images/lishia/595934145247969576.jpg" target="_blank"><img src="images/lishia/595934145247969576.jpg" alt="莉希雅11"></a>
-        <a href="images/lishia/595934173097623853.jpg" target="_blank"><img src="images/lishia/595934173097623853.jpg" alt="莉希雅12"></a>
-        <a href="images/lishia/595934188751553164.jpg" target="_blank"><img src="images/lishia/595934188751553164.jpg" alt="莉希雅13"></a>
-        <a href="images/lishia/595934247555432691.jpg" target="_blank"><img src="images/lishia/595934247555432691.jpg" alt="莉希雅14"></a>
-        <a href="images/lishia/595934270875500685.jpg" target="_blank"><img src="images/lishia/595934270875500685.jpg" alt="莉希雅15"></a>
-        <a href="images/lishia/595935283967427257.jpg" target="_blank"><img src="images/lishia/595935283967427257.jpg" alt="莉希雅16"></a>
-        <a href="images/lishia/595935300627726972.jpg" target="_blank"><img src="images/lishia/595935300627726972.jpg" alt="莉希雅17"></a>
-        <a href="images/lishia/595935794229936265.jpg" target="_blank"><img src="images/lishia/595935794229936265.jpg" alt="莉希雅18"></a>
-        <a href="images/lishia/595936054763586238.jpg" target="_blank"><img src="images/lishia/595936054763586238.jpg" alt="莉希雅19"></a>
-        <a href="images/lishia/595936109171573153.jpg" target="_blank"><img src="images/lishia/595936109171573153.jpg" alt="莉希雅20"></a>
-        <a href="images/lishia/607064803882303848.jpg" target="_blank"><img src="images/lishia/607064803882303848.jpg" alt="莉希雅21"></a>
-        <a href="images/lishia/607065165263274057.jpg" target="_blank"><img src="images/lishia/607065165263274057.jpg" alt="莉希雅22"></a>
-        <a href="images/lishia/607065244921495981.jpg" target="_blank"><img src="images/lishia/607065244921495981.jpg" alt="莉希雅23"></a>
+        <a href="images/lishia/8.png" target="_blank"><img src="images/lishia/8.png" alt="莉希雅8"></a>
+        <a href="images/lishia/9.png" target="_blank"><img src="images/lishia/9.png" alt="莉希雅9"></a>
+        <a href="images/lishia/10.jpg" target="_blank"><img src="images/lishia/10.jpg" alt="莉希雅10"></a>
+        <a href="images/lishia/11.jpg" target="_blank"><img src="images/lishia/11.jpg" alt="莉希雅11"></a>
+        <a href="images/lishia/12.jpg" target="_blank"><img src="images/lishia/12.jpg" alt="莉希雅12"></a>
+        <a href="images/lishia/13.jpg" target="_blank"><img src="images/lishia/13.jpg" alt="莉希雅13"></a>
+        <a href="images/lishia/14.jpg" target="_blank"><img src="images/lishia/14.jpg" alt="莉希雅14"></a>
+        <a href="images/lishia/15.jpg" target="_blank"><img src="images/lishia/15.jpg" alt="莉希雅15"></a>
+        <a href="images/lishia/16.jpg" target="_blank"><img src="images/lishia/16.jpg" alt="莉希雅16"></a>
+        <a href="images/lishia/17.jpg" target="_blank"><img src="images/lishia/17.jpg" alt="莉希雅17"></a>
+        <a href="images/lishia/18.jpg" target="_blank"><img src="images/lishia/18.jpg" alt="莉希雅18"></a>
+        <a href="images/lishia/19.jpg" target="_blank"><img src="images/lishia/19.jpg" alt="莉希雅19"></a>
+        <a href="images/lishia/20.jpg" target="_blank"><img src="images/lishia/20.jpg" alt="莉希雅20"></a>
+        <a href="images/lishia/21.jpg" target="_blank"><img src="images/lishia/21.jpg" alt="莉希雅21"></a>
+        <a href="images/lishia/22.jpg" target="_blank"><img src="images/lishia/22.jpg" alt="莉希雅22"></a>
+        <a href="images/lishia/23.jpg" target="_blank"><img src="images/lishia/23.jpg" alt="莉希雅23"></a>
       </div>
     </div>
   </div>
@@ -928,11 +955,11 @@
         <a href="images/melusia/1.jpg" target="_blank"><img src="images/melusia/1.jpg" alt="梅露希雅1"></a>
         <a href="images/melusia/2.jpg" target="_blank"><img src="images/melusia/2.jpg" alt="梅露希雅2"></a>
         <a href="images/melusia/3.jpg" target="_blank"><img src="images/melusia/3.jpg" alt="梅露希雅3"></a>
-        <a href="images/melusia/607069042242486841.jpg" target="_blank"><img src="images/melusia/607069042242486841.jpg" alt="梅露希雅4"></a>
-        <a href="images/melusia/607069319452688842.jpg" target="_blank"><img src="images/melusia/607069319452688842.jpg" alt="梅露希雅5"></a>
-        <a href="images/melusia/607073007336685887.jpg" target="_blank"><img src="images/melusia/607073007336685887.jpg" alt="梅露希雅6"></a>
-        <a href="images/melusia/607073139138494593.jpg" target="_blank"><img src="images/melusia/607073139138494593.jpg" alt="梅露希雅7"></a>
-        <a href="images/melusia/607073698172109320.jpg" target="_blank"><img src="images/melusia/607073698172109320.jpg" alt="梅露希雅8"></a>
+        <a href="images/melusia/4.jpg" target="_blank"><img src="images/melusia/4.jpg" alt="梅露希雅4"></a>
+        <a href="images/melusia/5.jpg" target="_blank"><img src="images/melusia/5.jpg" alt="梅露希雅5"></a>
+        <a href="images/melusia/6.jpg" target="_blank"><img src="images/melusia/6.jpg" alt="梅露希雅6"></a>
+        <a href="images/melusia/7.jpg" target="_blank"><img src="images/melusia/7.jpg" alt="梅露希雅7"></a>
+        <a href="images/melusia/8.jpg" target="_blank"><img src="images/melusia/8.jpg" alt="梅露希雅8"></a>
       </div>
     </div>
   </div>
@@ -945,7 +972,7 @@
       <div class="image-grid">
         <a href="images/milkmaid/1.jpg" target="_blank"><img src="images/milkmaid/1.jpg" alt="米露可1"></a>
         <a href="images/milkmaid/2.jpg" target="_blank"><img src="images/milkmaid/2.jpg" alt="米露可2"></a>
-        <a href="images/milkmaid/607068304078799004.jpg" target="_blank"><img src="images/milkmaid/607068304078799004.jpg" alt="米露可3"></a>
+        <a href="images/milkmaid/3.jpg" target="_blank"><img src="images/milkmaid/3.jpg" alt="米露可3"></a>
       </div>
     </div>
   </div>
@@ -1034,9 +1061,9 @@
       <span class="close-button" onclick="closehiiragiGallery()">&times;</span>
       <h2>柊·焰羽作品集</h2>
       <div class="image-grid">
-        <a href="images/hiiragi_enyu/607067494511280627.jpg" target="_blank"><img src="images/hiiragi_enyu/607067494511280627.jpg" alt="柊·焰羽1"></a>
-        <a href="images/hiiragi_enyu/607067513200575126.jpg" target="_blank"><img src="images/hiiragi_enyu/607067513200575126.jpg" alt="柊·焰羽2"></a>
-        <a href="images/hiiragi_enyu/607067689915777557.jpg" target="_blank"><img src="images/hiiragi_enyu/607067689915777557.jpg" alt="柊·焰羽3"></a>
+        <a href="images/hiiragi_enyu/1.jpg" target="_blank"><img src="images/hiiragi_enyu/1.jpg" alt="柊·焰羽1"></a>
+        <a href="images/hiiragi_enyu/2.jpg" target="_blank"><img src="images/hiiragi_enyu/2.jpg" alt="柊·焰羽2"></a>
+        <a href="images/hiiragi_enyu/3.jpg" target="_blank"><img src="images/hiiragi_enyu/3.jpg" alt="柊·焰羽3"></a>
       </div>
     </div>
   </div>
@@ -1047,10 +1074,10 @@
       <span class="close-button" onclick="closeSeraGallery()">&times;</span>
       <h2>瑟菈作品集</h2>
       <div class="image-grid">
-        <a href="images/sera/607068625697767841.jpg" target="_blank"><img src="images/sera/607068625697767841.jpg" alt="瑟菈1"></a>
-        <a href="images/sera/607068647206945198.jpg" target="_blank"><img src="images/sera/607068647206945198.jpg" alt="瑟菈2"></a>
-        <a href="images/sera/607069913852674402.jpg" target="_blank"><img src="images/sera/607069913852674402.jpg" alt="瑟菈3"></a>
-        <a href="images/sera/607070912348684837.jpg" target="_blank"><img src="images/sera/607070912348684837.jpg" alt="瑟菈4"></a>
+        <a href="images/sera/1.jpg" target="_blank"><img src="images/sera/1.jpg" alt="瑟菈1"></a>
+        <a href="images/sera/2.jpg" target="_blank"><img src="images/sera/2.jpg" alt="瑟菈2"></a>
+        <a href="images/sera/3.jpg" target="_blank"><img src="images/sera/3.jpg" alt="瑟菈3"></a>
+        <a href="images/sera/4.jpg" target="_blank"><img src="images/sera/4.jpg" alt="瑟菈4"></a>
       </div>
     </div>
   </div>
