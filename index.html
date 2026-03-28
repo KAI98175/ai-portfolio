@@ -194,7 +194,6 @@
       box-shadow: 0 4px 24px var(--shadow), inset 0 1px 0 rgba(201,168,76,0.04);
       transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
       overflow: hidden;
-      backdrop-filter: blur(2px);
     }
     .card:not(.collapsed) {
       background: linear-gradient(140deg, #0e0b1f 0%, #0a0818 100%);
@@ -436,7 +435,7 @@
     body.modal-open { overflow: hidden; }
 
     @media (max-width: 768px) {
-      #site-bg { background-position: center center; }
+      #site-bg { display: none; }
       .container { flex-direction: column; }
       nav {
         width: 100%;
