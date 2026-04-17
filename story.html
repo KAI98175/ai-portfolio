@@ -151,8 +151,13 @@
     /* =============== Main =============== */
     main {
       flex-grow: 1;
-      padding: 2.5rem 3.5rem;
-      max-width: 720px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      justify-content: center;
+    }
+    .story-inner {
+      width: 100%;
+      max-width: 680px;
     }
 
     /* =============== Story Content =============== */
@@ -295,7 +300,8 @@
       nav::after { display: none; }
       .char-group { display: inline-block; margin-right: 1rem; vertical-align: top; }
       .nav-section { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-start; }
-      main { padding: 1.5rem 1.2rem; }
+      main { padding: 1.5rem 1rem; }
+      .story-inner { max-width: 100%; }
       #story-body p { font-size: 0.92rem; }
     }
   </style>
@@ -311,10 +317,12 @@
 <div class="container">
   <nav id="story-nav"></nav>
   <main>
-    <div id="story-body"></div>
-    <div class="nav-btns" id="nav-btns" style="display:none">
-      <button class="nav-btn prev" id="btn-prev" disabled>← 上一篇</button>
-      <button class="nav-btn next" id="btn-next" disabled>下一篇 →</button>
+    <div class="story-inner">
+      <div id="story-body"></div>
+      <div class="nav-btns" id="nav-btns" style="display:none">
+        <button class="nav-btn prev" id="btn-prev" disabled>← 上一篇</button>
+        <button class="nav-btn next" id="btn-next" disabled>下一篇 →</button>
+      </div>
     </div>
   </main>
 </div>
