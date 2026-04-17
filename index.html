@@ -598,6 +598,8 @@
     function closehiiragiGallery()  { closeModal('hiiragiModal'); }
     function openSeraGallery()      { openModal('seraModal'); }
     function closeSeraGallery()     { closeModal('seraModal'); }
+    function openSuzuneGallery()    { openModal('suzuneModal'); }
+    function closeSuzuneGallery()   { closeModal('suzuneModal'); }
 
     /* ========== 標籤篩選功能 ========== */
     window.addEventListener('DOMContentLoaded', () => {
@@ -639,7 +641,8 @@
         'images/laevra/cover.jpg','images/laevra/1.jpg','images/laevra/2.jpg','images/laevra/3.jpg','images/laevra/4.jpg','images/laevra/5.jpg',
         'images/mio/cover.jpg',
         'images/hiiragi_enyu/cover.jpg','images/hiiragi_enyu/1.jpg','images/hiiragi_enyu/2.jpg','images/hiiragi_enyu/3.jpg',
-        'images/sera/cover.jpg','images/sera/1.jpg','images/sera/2.jpg','images/sera/3.jpg','images/sera/4.jpg'
+        'images/sera/cover.jpg','images/sera/1.jpg','images/sera/2.jpg','images/sera/3.jpg','images/sera/4.jpg',
+        'images/suzune/cover.jpg','images/suzune/1.jpg','images/suzune/2.jpg','images/suzune/3.jpg','images/suzune/4.jpg'
       ];
       const picked = bgImages[Math.floor(Math.random() * bgImages.length)];
       const siteBg = document.getElementById('site-bg');
@@ -673,6 +676,7 @@
         <li><a onclick="showOnly('mio')">澪（機體少女）</a></li>
         <li><a onclick="showOnly('hiiragi_enyu')">柊·焰羽（鬼族混血女忍者）</a></li>
         <li><a onclick="showOnly('sera')">瑟菈（白蛇少女）</a></li>
+        <li><a onclick="showOnly('suzune')">鈴音（橘光巡遊者）</a></li>
       </ul>
 
       <h2>標籤篩選</h2>
@@ -705,6 +709,9 @@
         <span class="tag-button" data-tag="健康膚色">#健康膚色</span>
         <span class="tag-button" data-tag="惡魔尾">#惡魔尾</span>
         <span class="tag-button" data-tag="挑逗系">#挑逗系</span>
+        <span class="tag-button" data-tag="橘髮">#橘髮</span>
+        <span class="tag-button" data-tag="幼女">#幼女</span>
+        <span class="tag-button" data-tag="天真可愛">#天真可愛</span>
 
       </div>
     </nav>
@@ -867,6 +874,19 @@
             下半身為純白蛇尾，動作優雅卻暗藏危險，散發出古老種族的靜謐威儀。
           </p>
           <button onclick="openSeraGallery()" class="gallery-button">🖼 查看作品集</button>
+        </div>
+      </section>
+
+      <!-- ============== 鈴音（橘光巡遊者） ============== -->
+      <section class="card collapsed" id="suzune"
+               data-tags="橘髮 幼女 天真可愛 獸族">
+        <h3 onclick="toggleCard('suzune')">鈴音（橘光巡遊者）</h3>
+        <div class="card-content">
+          <img src="images/suzune/cover.jpg" alt="鈴音圖片" class="char-image">
+          <p><strong>簡介：</strong>活潑靈動的獸族貓系少女，橘色短髮搭配貓耳與貓尾，天真爛漫的笑容令人不設防。
+            平日漫遊各地，腳步輕盈得像一縷橘色的光。
+          </p>
+          <button onclick="openSuzuneGallery()" class="gallery-button">🖼 查看作品集</button>
         </div>
       </section>
 
@@ -1055,6 +1075,20 @@
         <a href="images/sera/2.jpg" target="_blank"><img src="images/sera/2.jpg" alt="瑟菈2"></a>
         <a href="images/sera/3.jpg" target="_blank"><img src="images/sera/3.jpg" alt="瑟菈3"></a>
         <a href="images/sera/4.jpg" target="_blank"><img src="images/sera/4.jpg" alt="瑟菈4"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 鈴音（橘光巡遊者）作品集 Modal ============ -->
+  <div id="suzuneModal" class="modal hidden" style="display:none">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeSuzuneGallery()">&times;</span>
+      <h2>鈴音作品集</h2>
+      <div class="image-grid">
+        <a href="images/suzune/1.jpg" target="_blank"><img src="images/suzune/1.jpg" alt="鈴音1"></a>
+        <a href="images/suzune/2.jpg" target="_blank"><img src="images/suzune/2.jpg" alt="鈴音2"></a>
+        <a href="images/suzune/3.jpg" target="_blank"><img src="images/suzune/3.jpg" alt="鈴音3"></a>
+        <a href="images/suzune/4.jpg" target="_blank"><img src="images/suzune/4.jpg" alt="鈴音4"></a>
       </div>
     </div>
   </div>
