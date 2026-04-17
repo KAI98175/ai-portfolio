@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>維拉納異聞錄</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    /* =============== CSS Variables =============== */
+    :root {
+      --bg: #080611;
+      --bg-card: #0e0b1f;
+      --bg-nav: #09071a;
+      --gold: #c9a84c;
+      --gold-bright: #e8c97a;
+      --gold-dim: rgba(201,168,76,0.3);
+      --gold-glow: rgba(201,168,76,0.10);
+      --text: #d4cce8;
+      --text-muted: #8878a8;
+      --text-dim: #5a4f7a;
+      --border: rgba(201,168,76,0.15);
+      --border-hover: rgba(201,168,76,0.42);
+      --shadow: rgba(0,0,0,0.65);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      margin: 0;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 15% 60%, rgba(107,79,158,0.09) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 15%, rgba(201,168,76,0.04) 0%, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* =============== Header =============== */
+    header {
+      background: linear-gradient(180deg, #0d0920 0%, #080611 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 1.8rem 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      color: var(--gold-bright);
+      letter-spacing: 0.12em;
+      margin: 0 0 0.3rem;
+      text-shadow: 0 0 40px rgba(232,201,122,0.28), 0 0 80px rgba(201,168,76,0.12);
+    }
+    header p.subtitle {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .back-link {
+      position: absolute;
+      left: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    /* =============== Layout =============== */
+    .container { display: flex; min-height: calc(100vh - 100px); }
+
+    /* =============== Nav =============== */
+    nav {
+      width: 220px;
+      min-width: 220px;
+      background: var(--bg-nav);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1.1rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      top: 0; right: -1px;
+      width: 1px; height: 100%;
+      background: linear-gradient(180deg, transparent, var(--gold-dim) 20%, var(--gold-dim) 80%, transparent);
+    }
+    .nav-section {
+      margin-bottom: 1.4rem;
+    }
+    .nav-section-title {
+      font-size: 0.68rem;
+      font-weight: 400;
+      margin: 0 0 0.5rem;
+      color: var(--gold);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Playfair Display', serif;
+    }
+    .char-group { margin-bottom: 1.1rem; }
+    .char-name {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin: 0 0 0.2rem 0.3rem;
+    }
+    .chapter-link {
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.83rem;
+      display: block;
+      padding: 0.22rem 0.5rem;
+      border-left: 2px solid transparent;
+      border-radius: 2px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .chapter-link:hover {
+      color: var(--gold-bright);
+      border-left-color: var(--gold);
+      background: var(--gold-glow);
+      padding-left: 0.8rem;
+    }
+    .chapter-link.active {
+      color: var(--gold-bright);
+      border-left-color: var(--gold);
+      background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.03));
+    }
+
+    /* =============== Main =============== */
+    main {
+      flex-grow: 1;
+      padding: 2.5rem 3.5rem;
+      max-width: 720px;
+    }
+
+    /* =============== Story Content =============== */
+    #story-body {
+      animation: fadeIn 0.4s ease;
+    }
+    #story-body h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
+      color: var(--gold-bright);
+      letter-spacing: 0.06em;
+      margin: 0 0 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      text-shadow: 0 0 30px rgba(232,201,122,0.2);
+    }
+    #story-body p {
+      line-height: 2.1;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin: 0 0 1.2rem;
+      text-indent: 2em;
+    }
+    #story-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem auto;
+      width: 60%;
+      position: relative;
+    }
+    #story-body hr::after {
+      content: '❖';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg);
+      color: var(--gold-dim);
+      font-size: 0.7rem;
+      padding: 0 0.5rem;
+    }
+
+    /* =============== Welcome Screen =============== */
+    #welcome {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    #welcome h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1.3rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+    }
+    #welcome p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+    .welcome-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .welcome-item {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      font-family: 'Noto Sans TC', sans-serif;
+      text-align: left;
+    }
+    .welcome-item:hover {
+      border-color: var(--gold-dim);
+      color: var(--gold-bright);
+      background: var(--gold-glow);
+    }
+    .welcome-item span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+    }
+
+    /* =============== Nav Buttons =============== */
+    .nav-btns {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .nav-btn {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.83rem;
+      cursor: pointer;
+      font-family: 'Noto Sans TC', sans-serif;
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .nav-btn:hover:not(:disabled) {
+      color: var(--gold-bright);
+      border-color: var(--gold-dim);
+      background: var(--gold-glow);
+    }
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+    .nav-btn.next { margin-left: auto; }
+
+    /* =============== Utility =============== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =============== RWD =============== */
+    @media (max-width: 768px) {
+      .back-link { position: static; transform: none; display: block; margin-bottom: 0.5rem; font-size: 0.78rem; }
+      header { padding: 1rem 1rem 1rem; }
+      .container { flex-direction: column; }
+      nav {
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 0.8rem 1rem;
+      }
+      nav::after { display: none; }
+      .char-group { display: inline-block; margin-right: 1rem; vertical-align: top; }
+      .nav-section { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-start; }
+      main { padding: 1.5rem 1.2rem; }
+      #story-body p { font-size: 0.92rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link">← 角色資料庫</a>
+  <h1>維拉納異聞錄</h1>
+  <p class="subtitle">Vellana Chronicles</p>
+</header>
+
+<div class="container">
+  <nav id="story-nav"></nav>
+  <main>
+    <div id="story-body"></div>
+    <div class="nav-btns" id="nav-btns" style="display:none">
+      <button class="nav-btn prev" id="btn-prev" disabled>← 上一篇</button>
+      <button class="nav-btn next" id="btn-next" disabled>下一篇 →</button>
+    </div>
+  </main>
+</div>
+
+<script>
+  const characters = [
+    {
+      id: 'melusia', name: '梅露希雅',
+      stories: [
+        { ch: 1, title: '礁岸的下午' },
+        { ch: 2, title: '深流的聲音' },
+      ]
+    },
+    {
+      id: 'lishia', name: '莉希雅',
+      stories: [
+        { ch: 1, title: '山脊的獨居者' },
+        { ch: 2, title: '火焰不燙的夜晚' },
+        { ch: 3, title: '記憶的形狀' },
+      ]
+    },
+    {
+      id: 'frelia', name: '芙蕾莉雅',
+      stories: [
+        { ch: 1, title: '葉脈的邊界' },
+        { ch: 2, title: '森林不說謊' },
+        { ch: 3, title: '陌生人的氣味' },
+      ]
+    },
+    {
+      id: 'diaboli', name: '迪亞布莉',
+      stories: [
+        { ch: 1, title: '今天也要去地表看看' },
+      ]
+    },
+    {
+      id: 'lia_noctu', name: '莉亞‧諾克圖',
+      stories: [
+        { ch: 1, title: '地表的味道' },
+      ]
+    },
+    {
+      id: 'clotia', name: '柯露緹雅',
+      stories: [
+        { ch: 1, title: '第一次落地' },
+      ]
+    },
+  ];
+
+  // Flatten all stories for prev/next
+  const allStories = [];
+  characters.forEach(c => {
+    c.stories.forEach(s => {
+      allStories.push({ charId: c.id, charName: c.name, ch: s.ch, title: s.title });
+    });
+  });
+
+  // Build nav
+  const nav = document.getElementById('story-nav');
+  const sectionTitle = document.createElement('div');
+  sectionTitle.className = 'nav-section-title';
+  sectionTitle.textContent = 'Stories';
+  nav.appendChild(sectionTitle);
+
+  characters.forEach(c => {
+    const group = document.createElement('div');
+    group.className = 'char-group';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'char-name';
+    nameEl.textContent = c.name;
+    group.appendChild(nameEl);
+    c.stories.forEach(s => {
+      const link = document.createElement('a');
+      link.className = 'chapter-link';
+      link.href = `story.html?char=${c.id}&ch=${s.ch}`;
+      link.dataset.char = c.id;
+      link.dataset.ch = s.ch;
+      link.textContent = `${s.ch}. ${s.title}`;
+      link.title = s.title;
+      group.appendChild(link);
+    });
+    nav.appendChild(group);
+  });
+
+  // Parse URL params
+  const params = new URLSearchParams(location.search);
+  const charId = params.get('char');
+  const ch = parseInt(params.get('ch')) || 0;
+
+  // Mark active link
+  if (charId && ch) {
+    document.querySelectorAll('.chapter-link').forEach(el => {
+      if (el.dataset.char === charId && parseInt(el.dataset.ch) === ch) {
+        el.classList.add('active');
+        el.scrollIntoView({ block: 'nearest' });
+      }
+    });
+  }
+
+  // Load story or show welcome
+  const storyBody = document.getElementById('story-body');
+  const navBtns = document.getElementById('nav-btns');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+
+  if (charId && ch) {
+    const file = `story/${charId}_0${ch}.md`;
+    fetch(file)
+      .then(r => {
+        if (!r.ok) throw new Error('not found');
+        return r.text();
+      })
+      .then(md => {
+        storyBody.innerHTML = marked.parse(md);
+        navBtns.style.display = 'flex';
+
+        // Prev / Next
+        const idx = allStories.findIndex(s => s.charId === charId && s.ch === ch);
+        if (idx > 0) {
+          const prev = allStories[idx - 1];
+          btnPrev.disabled = false;
+          btnPrev.textContent = `← ${prev.charName}‧${prev.title}`;
+          btnPrev.onclick = () => location.href = `story.html?char=${prev.charId}&ch=${prev.ch}`;
+        }
+        if (idx < allStories.length - 1) {
+          const next = allStories[idx + 1];
+          btnNext.disabled = false;
+          btnNext.textContent = `${next.charName}‧${next.title} →`;
+          btnNext.onclick = () => location.href = `story.html?char=${next.charId}&ch=${next.ch}`;
+        }
+      })
+      .catch(() => {
+        storyBody.innerHTML = '<p style="color:var(--text-dim);text-align:center;margin-top:4rem;">找不到這篇故事。</p>';
+      });
+  } else {
+    // Welcome screen
+    storyBody.innerHTML = `
+      <div id="welcome">
+        <h2>選擇故事</h2>
+        <p>目前收錄 ${allStories.length} 篇，來自 ${characters.length} 位角色。</p>
+        <div class="welcome-list">
+          ${characters.map(c =>
+            c.stories.map(s => `
+              <button class="welcome-item" onclick="location.href='story.html?char=${c.id}&ch=${s.ch}'">
+                ${c.name}
+                <span>${s.ch}. ${s.title}</span>
+              </button>
+            `).join('')
+          ).join('')}
+        </div>
+      </div>
+    `;
+  }
+</script>
+
+</body>
+</html>
